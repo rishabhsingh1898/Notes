@@ -8,6 +8,8 @@ import com.example.notesapp.models.UserRequest
 import com.example.notesapp.models.UserResponse
 import com.example.notesapp.utils.Constants.TAG
 import com.example.notesapp.utils.NetworkResult
+import org.json.JSONObject
+import retrofit2.Response
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val userApi: UserApi) {
@@ -16,18 +18,25 @@ class UserRepository @Inject constructor(private val userApi: UserApi) {
         get() = _userResponseLiveData
 
     suspend fun registerUser(userRequest: UserRequest) {
+        _userResponseLiveData.postValue(NetworkResult.Loading())
         val response = userApi.signup(userRequest)
-        if (response.isSuccessful && response.body() != null) {
-            _userResponseLiveData.postValue(NetworkResult.Success(response.body()!!))
-        } else if (response.errorBody() != null) {
-            _userResponseLiveData.postValue(NetworkResult.Error("Something went wrong"))
-        } else {
-            _userResponseLiveData.postValue(NetworkResult.Error("Something went wrong"))
-        }
+        handleResponse(response)
     }
 
     suspend fun loginUser(userRequest: UserRequest) {
+        _userResponseLiveData.postValue(NetworkResult.Loading())
         val response = userApi.signin(userRequest)
-        Log.d(TAG, response.body().toString())
+        handleResponse(response)
+    }
+
+    private fun handleResponse(response: Response<UserResponse>) {
+        if (response.isSuccessful && response.body() != null) {
+            _userResponseLiveData.postValue(NetworkResult.Success(response.body()!!))
+        } else if (response.errorBody() != null) {
+            val error = JSONObject(response.errorBody()!!.charStream().readText())
+            _userResponseLiveData.postValue(NetworkResult.Error(error.getString("message")))
+        } else {
+            _userResponseLiveData.postValue(NetworkResult.Error("Something went wrong"))
+        }
     }
 }

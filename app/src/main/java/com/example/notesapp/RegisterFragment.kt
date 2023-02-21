@@ -27,21 +27,45 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        binding.btnLogin.setOnClickListener{
-            authViewModel.loginUser(UserRequest("rishabh@gmail.com", "rishabh", "rishabh"))
-//            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-        }
-        binding.btnSignUp.setOnClickListener{
-            authViewModel.registerUser(UserRequest("test@gmail.com", "random", "test11111"))
-//            findNavController().navigate(R.id.action_registerFragment_to_mainFragment)
-
-
-        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.btnLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
+
+        binding.btnSignUp.setOnClickListener {
+            val validationResult = validateUserInput()
+            if (validationResult.first) {
+                authViewModel.registerUser(getUserRequest())
+                findNavController().navigate(R.id.action_registerFragment_to_mainFragment)
+            } else {
+                binding.txtError.text = validationResult.second
+            }
+        }
+        bindObservers()
+    }
+
+    private fun getUserRequest(): UserRequest {
+        val email = binding.txtEmail.text.toString()
+        val password = binding.txtPassword.text.toString()
+        val username = binding.txtUsername.text.toString()
+        return UserRequest(email, username, password)
+    }
+
+    private fun validateUserInput(): Pair<Boolean, String> {
+        return authViewModel.validateCredentials(
+            getUserRequest().username,
+            getUserRequest().email,
+            getUserRequest().password,
+            false
+        )
+    }
+
+    private fun bindObservers() {
         authViewModel.userResponseLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is NetworkResult.Success -> {
