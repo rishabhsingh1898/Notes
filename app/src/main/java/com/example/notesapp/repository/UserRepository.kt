@@ -1,12 +1,10 @@
 package com.example.notesapp.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.notesapp.api.UserApi
-import com.example.notesapp.models.UserRequest
-import com.example.notesapp.models.UserResponse
-import com.example.notesapp.utils.Constants.TAG
+import com.example.notesapp.models.user.UserRequest
+import com.example.notesapp.models.user.UserResponse
 import com.example.notesapp.utils.NetworkResult
 import org.json.JSONObject
 import retrofit2.Response

@@ -10,10 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.notesapp.databinding.FragmentRegisterBinding
-import com.example.notesapp.models.UserRequest
+import com.example.notesapp.models.user.UserRequest
 import com.example.notesapp.utils.NetworkResult
+import com.example.notesapp.utils.TokenManager
 import com.example.notesapp.viewmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -22,11 +24,17 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
     private val authViewModel by viewModels<AuthViewModel>()
 
+    @Inject
+    private lateinit var tokenManager: TokenManager
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        if (tokenManager.getToken()!= null){
+            findNavController().navigate(R.id.action_registerFragment_to_mainFragment)
+        }
         return binding.root
     }
 
@@ -69,6 +77,7 @@ class RegisterFragment : Fragment() {
         authViewModel.userResponseLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is NetworkResult.Success -> {
+                    tokenManager.saveToken(it.data!!.token)
                     findNavController().navigate(R.id.action_registerFragment_to_mainFragment)
                 }
                 is NetworkResult.Error -> {

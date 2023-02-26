@@ -1,4 +1,4 @@
-package com.example.notesapp.models
+package com.example.notesapp.models.user
 
 data class UserResponse(
     val token: String,

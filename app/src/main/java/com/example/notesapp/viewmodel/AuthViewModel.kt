@@ -5,8 +5,8 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.notesapp.models.UserRequest
-import com.example.notesapp.models.UserResponse
+import com.example.notesapp.models.user.UserRequest
+import com.example.notesapp.models.user.UserResponse
 import com.example.notesapp.repository.UserRepository
 import com.example.notesapp.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel

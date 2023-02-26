@@ -1,7 +1,7 @@
 package com.example.notesapp.api
 
-import com.example.notesapp.models.UserRequest
-import com.example.notesapp.models.UserResponse
+import com.example.notesapp.models.user.UserRequest
+import com.example.notesapp.models.user.UserResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
