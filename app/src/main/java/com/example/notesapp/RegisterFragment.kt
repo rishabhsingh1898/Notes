@@ -25,7 +25,7 @@ class RegisterFragment : Fragment() {
     private val authViewModel by viewModels<AuthViewModel>()
 
     @Inject
-    private lateinit var tokenManager: TokenManager
+    lateinit var tokenManager: TokenManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
