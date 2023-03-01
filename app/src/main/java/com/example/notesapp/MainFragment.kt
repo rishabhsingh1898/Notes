@@ -9,15 +9,14 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.notesapp.api.NoteApi
 import com.example.notesapp.databinding.FragmentMainBinding
-import com.example.notesapp.databinding.FragmentRegisterBinding
+import com.example.notesapp.models.note.NoteResponse
 import com.example.notesapp.utils.NetworkResult
-import com.example.notesapp.viewmodel.AuthViewModel
 import com.example.notesapp.viewmodel.NoteViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -33,7 +32,7 @@ class MainFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        adapter = NoteAdapter()
+        adapter = NoteAdapter(::onNoteClicked)
         return binding.root
     }
 
@@ -43,6 +42,9 @@ class MainFragment : Fragment() {
         noteViewModel.getNotes()
         binding.noteList.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.noteList.adapter = adapter
+        binding.addNote.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_noteFragment)
+        }
     }
 
     private fun bindObservers() {
@@ -50,7 +52,7 @@ class MainFragment : Fragment() {
             binding.progressBar.isVisible = false
             when (it) {
                 is NetworkResult.Error -> {
-                    Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT).show()
                 }
                 is NetworkResult.Loading -> {
                     binding.progressBar.isVisible = true
@@ -60,6 +62,12 @@ class MainFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun onNoteClicked(noteResponse: NoteResponse) {
+        val bundle = Bundle()
+        bundle.putString("note", Gson().toJson(noteResponse))
+        findNavController().navigate(R.id.action_mainFragment_to_noteFragment, bundle)
     }
 
     override fun onDestroy() {

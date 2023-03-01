@@ -25,4 +25,6 @@
     <string name="add_note">Add Note</string>
     <string name="notes">Notes</string>
     <string name="fab">FAB</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="add_note_text">Add Note</string>
 </resources>
