@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.ui.note
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.databinding.NoteItemBinding
 import com.example.notesapp.models.note.NoteResponse
-import kotlin.reflect.KFunction1
 
 class NoteAdapter(private val onNoteClicked: (NoteResponse) -> Unit) :
     ListAdapter<NoteResponse, NoteAdapter.NoteViewHolder>(ComparatorDiffUtil()) {

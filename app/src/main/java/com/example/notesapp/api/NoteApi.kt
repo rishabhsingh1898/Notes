@@ -1,6 +1,5 @@
 package com.example.notesapp.api
 
-import androidx.room.Delete
 import com.example.notesapp.models.note.NoteRequest
 import com.example.notesapp.models.note.NoteResponse
 import retrofit2.Response

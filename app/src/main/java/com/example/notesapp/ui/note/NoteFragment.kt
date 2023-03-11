@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.ui.note
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentNoteBinding
 import com.example.notesapp.models.note.NoteRequest
 import com.example.notesapp.models.note.NoteResponse
 import com.example.notesapp.utils.NetworkResult
 import com.example.notesapp.viewmodel.NoteViewModel
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NoteFragment : Fragment() {
 
     private var _binding: FragmentNoteBinding? = null

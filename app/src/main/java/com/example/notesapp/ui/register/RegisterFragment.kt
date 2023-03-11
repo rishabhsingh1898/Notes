@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.ui.register
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentRegisterBinding
 import com.example.notesapp.models.user.UserRequest
 import com.example.notesapp.utils.NetworkResult
