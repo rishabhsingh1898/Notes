@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentNoteBinding
@@ -42,7 +41,7 @@ class NoteFragment : Fragment() {
     }
 
     private fun bindObservers() {
-        noteViewModel.statusLiveData.observe(viewLifecycleOwner, Observer {
+        noteViewModel.statusLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is NetworkResult.Success -> {
                     findNavController().popBackStack()
@@ -54,12 +53,12 @@ class NoteFragment : Fragment() {
 
                 }
             }
-        })
+        }
     }
 
     private fun bindHandlers() {
         binding.btnDelete.setOnClickListener {
-            note?.let { noteViewModel.deleteNote(it!!._id) }
+            note?.let { noteViewModel.deleteNote(it._id) }
         }
         binding.apply {
             btnSubmit.setOnClickListener {
